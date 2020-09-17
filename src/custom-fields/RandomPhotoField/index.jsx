@@ -17,6 +17,7 @@ RandomPhotoField.defaultProps = {
 function RandomPhotoField(props) {
 	const { field, form, label } = props;
 	const { name, value, onBlur } = field;
+
 	const { errors, touched } = form;
 	const showError = errors[name] && touched[name];
 
