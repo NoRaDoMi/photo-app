@@ -3,6 +3,8 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import NotFound from './components/NotFound';
 import './App.scss';
+import Footer from 'components/Footer';
+import { Spinner } from 'reactstrap';
 
 // Lazy load - Code splitting
 const Photo = React.lazy(() => import('./features/Photo'));
@@ -10,7 +12,7 @@ const Photo = React.lazy(() => import('./features/Photo'));
 function App() {
 	return (
 		<div className="photo-app">
-			<Suspense fallback={<div>Loading ...</div>}>
+			<Suspense fallback={<Spinner size="sm" color="primary" />}>
 				<BrowserRouter>
 					<Header />
 
@@ -21,6 +23,8 @@ function App() {
 
 						<Route component={NotFound} />
 					</Switch>
+
+					<Footer />
 				</BrowserRouter>
 			</Suspense>
 		</div>
