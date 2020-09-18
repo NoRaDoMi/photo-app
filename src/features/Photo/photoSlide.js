@@ -98,5 +98,5 @@ const photo = createSlice({
 });
 
 const { actions, reducer } = photo;
-export const { addPhoto, removePhoto } = actions;
+export const { addPhoto, removePhoto, updatePhoto } = actions;
 export default reducer;
