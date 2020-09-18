@@ -3,14 +3,25 @@ import { Container, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Banner from 'components/Banner';
 import Images from 'constants/images';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PhotoList from 'features/Photo/components/PhotoList';
+import { removePhoto } from 'features/Photo/photoSlide';
 
 MainPage.propTypes = {};
 
 function MainPage(props) {
 	const photos = useSelector((state) => state.photos);
-	console.log('List of photos: ', photos);
+	const dispatch = useDispatch();
+
+	const handlePhotoRemoveClick = (photo) => {
+		console.log('Remove: ', photo);
+		const action = removePhoto(photo.id);
+		dispatch(action);
+	};
+
+	const handlePhotoEditClick = (photo) => {
+		console.log('Edit: ', photo);
+	};
 
 	return (
 		<div className="photo-main">
@@ -25,7 +36,11 @@ function MainPage(props) {
 					</Link>
 				</div>
 
-				<PhotoList photoList={photos} />
+				<PhotoList
+					photoList={photos}
+					onPhotoEditClick={handlePhotoEditClick}
+					onPhotoRemoveClick={handlePhotoRemoveClick}
+				/>
 			</Container>
 		</div>
 	);
