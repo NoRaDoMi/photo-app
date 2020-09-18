@@ -9,27 +9,32 @@ import { PHOTO_CATEGORY_OPTIONS } from '../../../../constants/global';
 import * as Yup from 'yup';
 
 PhotoForm.propTypes = {
-	onSubmit: PropTypes.func
+	onSubmit: PropTypes.func,
+	initialValues: PropTypes.object
 };
 
 PhotoForm.defaultProps = {
-	onSubmit: null
+	onSubmit: null,
+	initialValues: null
 };
 
 function PhotoForm(props) {
-	const initialValues = {
-		title: '',
-		categoryId: null,
-		photo: ''
-	};
+	const { initialValues, isAddMode } = props;
 
 	const validationSchema = Yup.object().shape({
 		title: Yup.string().required('This field is required.'),
 		categoryId: Yup.number().required('This field is required').nullable(),
 		photo: Yup.string().required('This field is required')
 	});
+
 	return (
-		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={props.onSubmit}>
+		<Formik
+			initialValues={initialValues}
+			validationSchema={validationSchema}
+			onSubmit={(values) => {
+				props.onSubmit(values);
+			}}
+		>
 			{(formikProps) => {
 				const { isSubmitting } = formikProps;
 				return (
@@ -47,9 +52,9 @@ function PhotoForm(props) {
 						<FastField name="photo" component={RandomPhotoField} label="Photo" />
 
 						<FormGroup>
-							<Button type="submit" color="primary">
+							<Button type="submit" color={isAddMode ? 'primary' : 'success'}>
 								{isSubmitting && <Spinner size="sm" />}
-								Add to album
+								{isAddMode ? 'Add to album' : 'Update photo'}
 							</Button>
 						</FormGroup>
 					</Form>
